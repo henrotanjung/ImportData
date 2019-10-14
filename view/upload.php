@@ -87,20 +87,35 @@ if (isset($_POST['submit'])){
         
     </nav>
     </div>
-    
-    <!-- Upload From -->
-    <div class="container">
-        <form method="post" action="upload.php">
-            <div class="form-group">
-                <label for="fileToImport">Input File</label>
-                <input type="file" class="form-control-file" id="fileToImport" name="fileToImport">
+    <div class="container" style="padding-right: 0">
+            <div class="float-left" style="width: 47%;">
+                <form method="post" action="import.php">
+                    <div class="container mt-3 jumbotron">
+                        <div style="margin-top: -50px; padding: 10px;" class="bg-info">
+                            <h4>Upload File</h4>
+                        </div>
+                        <hr />                
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label for="fileToImport">Select File</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="file" class="form-control-file" id="fileToImport" name="fileToImport">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label for="fileToImport"></label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
             </div>
-            <div>
-                <input type = "submit" name = "submit" value = "Submit"> 
-                <!-- <button type="button" name="submit" class="btn btn-primary">Upload</button> -->
-            </div>
-        </form>
-    </div>
+        </div>
 
 
     <!-- Optional JavaScript -->

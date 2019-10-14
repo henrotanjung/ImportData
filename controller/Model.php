@@ -5,9 +5,20 @@ class Model {
     private $where;
     private $getDatas;
     private $limit;
+    private $values;
+    private $columns;
 
-    public function insert($tableName,$values=[]){
-        return "insert into $tableName Values $values";
+    public function value($values){
+        $this->value="VALUES $values";
+        return $this;
+    }
+    public function column($column){
+        $this->columns="$column";
+        return $this;
+    }
+    public function insert($tableName){
+        return "insert into $tableName";
+        return $this;
     }
 
     public function select($values){
@@ -28,6 +39,10 @@ class Model {
         $this->limit = "LIMIT $limit ";
         return $this;
     }
+
+    public function update($tableName){
+        
+    }
     public function getDatas($sourceDatas){
         include '../config/koneksi.php';
         // global $koneksi;
@@ -36,7 +51,14 @@ class Model {
         $from = $sourceDatas->from;
         $where = $sourceDatas->where;
         $query = $select.$from.$where;                
-        $res = $this->getDatas = $koneksi->query($query);        
+        $res = $this->getDatas = $koneksi->query($query); 
+        $que = "SELECT id,client,company FROM member WHERE id in (5369890,5369871)";
+        $d = $koneksi->query($que); 
+        $d = $d->fetch_assoc();
+        foreach ($d as $value) {
+            echo "$value <br>";
+        }
+        var_dump($d);   
         return $res->fetch_assoc();
     }
 
@@ -51,12 +73,6 @@ class Model {
         $query = $select.$from.$where.$limit;                
         $res = $this->getDatas = $koneksi->query($query);        
         return $res->fetch_assoc();
-    }
-
-    public function getDatas_Obselect($tableName,$client){            
-        $query = $this->select($tableName,$client);
-        $get_datas = $koneksi->query($query);        
-        return $get_datas = $get_datas->fetch_assoc();
     }
 
 }

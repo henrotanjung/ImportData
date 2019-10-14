@@ -21,7 +21,13 @@ if (isset($_POST['submit'])) {
     $company = $_POST['company'];
     $enroll_obj->insert($fileName, $column, $client, $company);
 }
-
+if (isset($_POST['submit_principle'])){    
+    include $root . 'controller/Enrollment.php';
+    $enroll_obj = new Enrollment();
+    $client = $_POST['client'];
+    $company = $_POST['company'];
+    $enroll_obj->update($client,$company);
+}
 ?>
 
 <!doctype html>
@@ -146,7 +152,7 @@ if (isset($_POST['submit'])) {
                                 <label for="fileToImport"></label>
                             </div>
                             <div class="col-sm-7">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+                                <input class="btn btn-primary" type="submit" name="submit_principle" value="Submit">
                             </div>
                         </div>
                         <div class="row" style="visibility: hidden;">
