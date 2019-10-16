@@ -4,20 +4,29 @@ class Model {
     private $from;
     private $where;
     private $getDatas;
+    private $getDatasFectArray;
     private $limit;
     private $values;
-    private $columns;
+    private $valueSet;
+    private $set;
+    private $updateQ;
 
     public function value($values){
-        $this->value="VALUES $values";
+        $this->value="VALUES $values ";
         return $this;
     }
-    public function column($column){
-        $this->columns="$column";
+
+    public function valueSet($values){
+        $this->valueSet="=$values ";
+        return $this;
+    }
+    
+    public function set($columnValues){
+        $this->set="SET $columnValues ";
         return $this;
     }
     public function insert($tableName){
-        return "insert into $tableName";
+        $this->insert="insert into $tableName ";
         return $this;
     }
 
@@ -25,7 +34,7 @@ class Model {
         $this->select = "select $values ";
         return $this;
     }    
-
+    
     public function from($tableName){
         $this->from = "from $tableName ";
         return $this;
@@ -39,10 +48,22 @@ class Model {
         $this->limit = "LIMIT $limit ";
         return $this;
     }
-
     public function update($tableName){
-        
+        $set = $this->set;
+        $where = $this->where;
+        $this->update = "UPDATE $tableName ";
+        return $this;
     }
+
+    public function executeUpdate($source){        
+        $update = $this->update;
+        $set = $this->set;
+        $valueSet = $this->valueSet;
+        $where = $this->where;
+        $query = $update.$set.$where;      
+        return $query;
+    }
+
     public function getDatas($sourceDatas){
         include '../config/koneksi.php';
         // global $koneksi;
@@ -51,15 +72,33 @@ class Model {
         $from = $sourceDatas->from;
         $where = $sourceDatas->where;
         $query = $select.$from.$where;                
-        $res = $this->getDatas = $koneksi->query($query); 
-        $que = "SELECT id,client,company FROM member WHERE id in (5369890,5369871)";
-        $d = $koneksi->query($que); 
-        $d = $d->fetch_assoc();
-        foreach ($d as $value) {
-            echo "$value <br>";
-        }
-        var_dump($d);   
+        $res = $this->getDatas = $koneksi->query($query);              
         return $res->fetch_assoc();
+    }
+
+    public function getDataMember($sourceDatas){
+        include '../config/koneksi.php';
+        // global $koneksi;
+        // var_dump($sourceDatas->where);
+        $select = $sourceDatas->select;
+        $from = $sourceDatas->from;
+        $where = $sourceDatas->where;
+        $query = $select.$from.$where;        
+        $res = $koneksi->query($query);     
+        
+        return $res;
+    }
+
+
+    public function getDatasFectArray($sourceDatas){
+        include '../config/koneksi.php';
+        $select = $sourceDatas->select;
+        $from = $sourceDatas->from;
+        $where = $sourceDatas->where;
+        $query = $select.$from.$where;                
+        $res = $this->getDatasFectArray = $koneksi->query($query);         
+        
+        return mysqli_fetch_array($res);
     }
 
     public function getDatasLimit($sourceDatas){
